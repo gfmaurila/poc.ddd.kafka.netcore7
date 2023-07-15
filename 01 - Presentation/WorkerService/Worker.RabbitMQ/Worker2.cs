@@ -1,16 +1,15 @@
 using Polly.Fallback;
 using System.Net.Http.Json;
-using Worker.Kafka.Models;
+using Worker.RabbitMQ.Models;
 
-namespace Worker.Kafka;
-
-public class Worker : BackgroundService
+namespace Worker.RabbitMQ;
+public class Worker2 : BackgroundService
 {
-    private readonly ILogger<Worker> _logger;
+    private readonly ILogger<Worker2> _logger;
     private readonly IConfiguration _configuration;
     private readonly AsyncFallbackPolicy<ResultadoContador> _resiliencePolicy;
 
-    public Worker(ILogger<Worker> logger,
+    public Worker2(ILogger<Worker2> logger,
         IConfiguration configuration,
         AsyncFallbackPolicy<ResultadoContador> resiliencePolicy)
     {
@@ -22,7 +21,7 @@ public class Worker : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         var httpClient = new HttpClient();
-        var urlApiContagem = _configuration["UrlApiContagem"];
+        var urlApiContagem = _configuration["UrlApiContagemKafka"];
 
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -34,20 +33,20 @@ public class Worker : BackgroundService
                 });
 
                 Console.WriteLine($"* {DateTime.Now:HH:mm:ss} * " +
-                    $"Worker.Kafka - Contador Worker 1 = {resultado.ValorAtual} | " +
-                    $"Worker.Kafka - Mensagem Worker 1  = {resultado.Mensagem}");
+                    $"Worker.RabbitMQ - Contador Worker 2 = {resultado.ValorAtual} | " +
+                    $"Worker.RabbitMQ - Mensagem Worker 2  = {resultado.Mensagem}");
 
                 _logger.LogInformation($"* {DateTime.Now:HH:mm:ss} * " +
-                    $"Worker.Kafka - Contador Worker 1  = {resultado.ValorAtual} | " +
-                    $"Worker.Kafka - Mensagem Worker 1  = {resultado.Mensagem}");
+                    $"Worker.RabbitMQ - Contador Worker 2  = {resultado.ValorAtual} | " +
+                    $"Worker.RabbitMQ - Mensagem Worker 2  = {resultado.Mensagem}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"# {DateTime.Now:HH:mm:ss} # " +
-                    $"Worker.Kafka - Falha ao invocar a API  Worker 1 : {ex.GetType().FullName} | {ex.Message}");
+                    $"Worker.RabbitMQ - Falha ao invocar a API  Worker 2 : {ex.GetType().FullName} | {ex.Message}");
 
                 _logger.LogError($"# {DateTime.Now:HH:mm:ss} # " +
-                    $"Worker.Kafka - Falha ao invocar a API  Worker 1 : {ex.GetType().FullName} | {ex.Message}");
+                    $"Worker.RabbitMQ - Falha ao invocar a API  Worker 2 : {ex.GetType().FullName} | {ex.Message}");
             }
 
             await Task.Delay(1000, stoppingToken);

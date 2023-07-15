@@ -79,7 +79,7 @@ public class Config
         services.AddScoped<CreateUserValidator>();
     }
 
-    
+
 
 
     public static void ConfigBusService(IServiceCollection services)

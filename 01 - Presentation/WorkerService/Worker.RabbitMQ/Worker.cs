@@ -1,21 +1,55 @@
-namespace Worker.RabbitMQ
+using Polly.Fallback;
+using System.Net.Http.Json;
+using Worker.RabbitMQ.Models;
+
+namespace Worker.RabbitMQ;
+public class Worker : BackgroundService
 {
-    public class Worker : BackgroundService
+    private readonly ILogger<Worker> _logger;
+    private readonly IConfiguration _configuration;
+    private readonly AsyncFallbackPolicy<ResultadoContador> _resiliencePolicy;
+
+    public Worker(ILogger<Worker> logger,
+        IConfiguration configuration,
+        AsyncFallbackPolicy<ResultadoContador> resiliencePolicy)
     {
-        private readonly ILogger<Worker> _logger;
+        _logger = logger;
+        _configuration = configuration;
+        _resiliencePolicy = resiliencePolicy;
+    }
 
-        public Worker(ILogger<Worker> logger)
-        {
-            _logger = logger;
-        }
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        var httpClient = new HttpClient();
+        var urlApiContagem = _configuration["UrlApiContagem"];
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        while (!stoppingToken.IsCancellationRequested)
         {
-            while (!stoppingToken.IsCancellationRequested)
+            try
             {
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                await Task.Delay(1000, stoppingToken);
+                var resultado = await _resiliencePolicy.ExecuteAsync(() =>
+                {
+                    return httpClient.GetFromJsonAsync<ResultadoContador>(urlApiContagem)!;
+                });
+
+                Console.WriteLine($"* {DateTime.Now:HH:mm:ss} * " +
+                    $"Worker.RabbitMQ - Contador Worker 1 = {resultado.ValorAtual} | " +
+                    $"Worker.RabbitMQ - Mensagem Worker 1  = {resultado.Mensagem}");
+
+                _logger.LogInformation($"* {DateTime.Now:HH:mm:ss} * " +
+                    $"Worker.RabbitMQ - Contador Worker 1  = {resultado.ValorAtual} | " +
+                    $"Worker.RabbitMQ - Mensagem Worker 1  = {resultado.Mensagem}");
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"# {DateTime.Now:HH:mm:ss} # " +
+                    $"Worker.RabbitMQ - Falha ao invocar a API  Worker 1 : {ex.GetType().FullName} | {ex.Message}");
+
+                _logger.LogError($"# {DateTime.Now:HH:mm:ss} # " +
+                    $"Worker.RabbitMQ - Falha ao invocar a API  Worker 1 : {ex.GetType().FullName} | {ex.Message}");
+            }
+
+            await Task.Delay(1000, stoppingToken);
         }
     }
 }

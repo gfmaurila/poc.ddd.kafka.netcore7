@@ -55,13 +55,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiTest", "05 - Tests\01
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Messaging.Kafka", "04 - Infrastructure\4.2 - Messaging\Messaging.Kafka\Messaging.Kafka.csproj", "{B3BF0E1D-2A59-4D78-A3DC-1B942FE2D8E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worker.RabbitMQ", "01 - Presentation\WorkerService\Worker.RabbitMQ\Worker.RabbitMQ.csproj", "{FCF6A1A0-59E8-4A38-941E-B0D73D86C55A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worker.RabbitMQ", "01 - Presentation\WorkerService\Worker.RabbitMQ\Worker.RabbitMQ.csproj", "{FCF6A1A0-59E8-4A38-941E-B0D73D86C55A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worker.Kafka", "01 - Presentation\WorkerService\Worker.Kafka\Worker.Kafka.csproj", "{C25BCD3F-1FA6-4FE3-8E56-DEDD1B1B128C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worker.Kafka", "01 - Presentation\WorkerService\Worker.Kafka\Worker.Kafka.csproj", "{C25BCD3F-1FA6-4FE3-8E56-DEDD1B1B128C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionApp", "01 - Presentation\WebHook\FunctionApp\FunctionApp.csproj", "{44C30FC8-0941-433B-B136-C90C3F307217}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionApp", "01 - Presentation\WebHook\FunctionApp\FunctionApp.csproj", "{44C30FC8-0941-433B-B136-C90C3F307217}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebHook", "WebHook", "{5888ADE9-36BE-44BA-8B06-B50F6A620F3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossCutting", "04 - Infrastructure\4.3 - CrossCutting\CrossCutting\CrossCutting.csproj", "{6AF4E135-3843-430D-9DFE-E4273466C05B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,6 +131,10 @@ Global
 		{44C30FC8-0941-433B-B136-C90C3F307217}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44C30FC8-0941-433B-B136-C90C3F307217}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44C30FC8-0941-433B-B136-C90C3F307217}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AF4E135-3843-430D-9DFE-E4273466C05B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AF4E135-3843-430D-9DFE-E4273466C05B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AF4E135-3843-430D-9DFE-E4273466C05B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AF4E135-3843-430D-9DFE-E4273466C05B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -159,6 +165,7 @@ Global
 		{C25BCD3F-1FA6-4FE3-8E56-DEDD1B1B128C} = {574CD22B-7950-42E7-999E-775A41EF0560}
 		{44C30FC8-0941-433B-B136-C90C3F307217} = {5888ADE9-36BE-44BA-8B06-B50F6A620F3F}
 		{5888ADE9-36BE-44BA-8B06-B50F6A620F3F} = {14D7D097-CFD3-4787-89F2-4D6FB5DA7525}
+		{6AF4E135-3843-430D-9DFE-E4273466C05B} = {A54F47AF-4C1A-4FDF-8757-C17EDCAC4D12}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5472CBC8-D375-447C-B6C3-6E037CD58DD8}
